@@ -8,7 +8,7 @@
 ## templates.  Those two functions are described in the discussion section for 
 ## Programming Assignment 2: Lexical Scoping (please see link below).
 ## https://www.coursera.org/learn/r-programming/peer/tNy8H/programming-assignment-2-lexical-scoping
-## Also, the examples that I use to demonstrate these functions have been influenced by 
+## Also, the examples used to demonstrate these functions have been influenced by 
 ## some of the course discussion forum threads - specifically those of mentors 
 ## Leonard Greski and Allen Berger.  Links to their posts appear below. 
 ## https://www.coursera.org/learn/r-programming/discussions/weeks/3/threads/jyJBRWmREeaeEw4INb6PhQ
@@ -16,7 +16,7 @@
 
 
 ## FUNCTION makeCacheMatrix
-## Creates a special matrix object and initializes the value of it inverse
+## This function creates a special matrix object and initializes the value of its inverse
 ## to NULL.  It returns a list comprised of four functions ("getters" and "setters") which do 
 ## the following:
 ## 1) Set the value of the matrix
@@ -26,6 +26,7 @@
 
 makeCacheMatrix <- function(x = matrix()) {
         m <- NULL
+        ## Double-arrow operator assigns to variables in the parent environment.
         set <- function(y) {
                 x <<- y
                 m <<- NULL
@@ -40,8 +41,8 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## FUNCTION cacheSolve
-## When cacheSolve is called for the very first time, for a given matrix, it will compute the 
-## inverse of that matrix.  Subsequent calls to cacheSolve will check to see if the inverse
+## When cacheSolve is called for the very first time, for a given matrix, it will compute and  
+## store the inverse of that matrix.  Subsequent calls to cacheSolve will check to see if the inverse
 ## of that matrix already exists in memory.  If so, then it will return the saved (cached)
 ## value of the inverse.  If cacheSolve is called using a new matrix as input, then 
 ## it will compute the inverse for the new matrix and then store (cache) the value of the 
@@ -50,10 +51,13 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
         m <- x$getinvrs()
+        ## If the inverse already exists in memory, return the cached value
         if(!is.null(m)) {
                 message("getting cached data")
                 return(m)
         }
+        ## If the inverse does NOT exist in memory, compute the inverse and 
+        ## save (cache) it for potential retrieval in the future.
         data <- x$get()
         m <- solve(data, ...)
         x$setinvrs(m)
@@ -124,6 +128,4 @@ cacheSolve(myMatrix_Object)
 ## Finally, let's confirm that when we multiply our input matrix by its inverse,
 ## that we do indeed obtain the Identity matrix.
 M2 %*% M2_Inv
-
-
 
